@@ -48,3 +48,4 @@ def filter_numbers(nums, num_type):
         return list(filter(lambda x: x % 2 == 0, nums))
     elif num_type == PRIME:
         return list(filter(lambda x: is_prime(x), nums))
+#для проверки дз
