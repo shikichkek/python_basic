@@ -22,10 +22,18 @@ class Vehicle(ABC):
 
     def move(self, distance):
         if self.fuel_consumption > 0:
+<<<<<<< HEAD
             max_distance = self.fuel / self.fuel_consumption
         else:
             max_distance = 0
         if max_distance >= distance:
+=======
+            max_distance = self.fuel // self.fuel_consumption
+        else:
+            max_distance = 0
+
+        if distance <= max_distance:
+>>>>>>> homework_02
             self.fuel -= self.fuel_consumption * distance
         else:
             raise NotEnoughFuel

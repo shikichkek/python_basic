@@ -1,6 +1,10 @@
 """
 создайте класс `Car`, наследник `Vehicle`
 """
+<<<<<<< HEAD
+=======
+
+>>>>>>> homework_02
 from homework_02.base import Vehicle
 
 

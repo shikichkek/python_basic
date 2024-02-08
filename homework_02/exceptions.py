@@ -15,4 +15,8 @@ class NotEnoughFuel(Exception):
 
 
 class CargoOverload(Exception):
+<<<<<<< HEAD
     pass
+=======
+    pass
+>>>>>>> homework_02
