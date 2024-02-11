@@ -1,3 +1,44 @@
+## Запуск контейнера
+
+Запустить контейнер возможно двумя способами:
+
+1. Скачать данный репозиторий, собрать и запустить образ
+2. Просто запустить образ одной командой, т.к. он опубликован на docker hub.
+
+#### Описание первого способа
+
+1. Скачиваем репозиторий:
+
+```bash
+git clone https://github.com/shikichkek/python_basic
+```
+
+2. Переходим в каталог `python_basic` и Переключаемся на ветку `homework_03`: 
+
+```bash
+cd python_basic && git switch homework_03
+```
+
+3. Выполняем сборку образа: 
+
+```bash
+docker build . -t shikichkek/otus:uvicorn-fastapi
+```
+
+4. Запуск образа: 
+
+```bash
+docker run -p 8000:8000 shikichkek/otus:uvicorn-fastapi
+```
+
+#### Описание второго способа
+
+1. Просто запускаем контейнер: 
+
+```bash
+docker run -p 8000:8000 shikichkek/otus:uvicorn-fastapi
+```
+
 ### Домашнее задание "Docker контейнер c веб-приложением"
 #### Задача:
 - скопируйте папку `homework_03` для этой домашки 
