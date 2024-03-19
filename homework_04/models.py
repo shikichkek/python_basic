@@ -10,7 +10,7 @@
 import os
 
 
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import DeclarativeBase, declared_attr
 from sqlalchemy.orm import relationship
 
 from sqlalchemy import Column
@@ -35,7 +35,14 @@ async_engine = create_async_engine(
     echo=True,
 )
 
-Base = declarative_base(bind=async_engine)
+
+class Base(DeclarativeBase):
+    id = Column(Integer, primary_key=True)
+
+    @declared_attr.directive
+    def __tablename__(cls) -> str:
+        return f"{cls.__name__.lower()}s"
+
 
 Session = async_sessionmaker(
     bind=async_engine,
