@@ -43,4 +43,3 @@ class Post(Base):
     title = Column(String(128), nullable=False, default='', server_default='')
     body = Column(String(256), nullable=False, default='', server_default='')
     user = relationship('User', back_populates='posts')
-
