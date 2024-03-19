@@ -19,7 +19,7 @@ if not PG_CONN_URI:
     PG_CONN_URI = "postgresql+asyncpg://postgres:password@localhost:5432/postgres"
 engine = create_async_engine(PG_CONN_URI, echo=True)
 
-Base = declarative_base(bind=engine)
+Base = declarative_base()
 Session = async_scoped_session(sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False))
 
 
