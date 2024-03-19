@@ -12,12 +12,12 @@
   (используйте полученные из запроса данные, передайте их в функцию для добавления в БД)
 - закрытие соединения с БД
 """
-
-
 import asyncio
 
+from typing import List
+
+from jsonplaceholder_requests import get_users, get_posts
 from models import User, Post, Base, engine, Session
-from jsonplaceholder_requests import get_posts, get_users
 
 
 async def create_tables():
@@ -26,51 +26,47 @@ async def create_tables():
         await conn.run_sync(Base.metadata.create_all)
 
 
-async def get_data():
-    return await asyncio.gather(get_users(), get_posts())
-
-
-def convert_users(users: list[dict]) -> list[User]:
-    return [
-        User(
-            id=item["id"],
-            name=item["name"],
-            username=item["username"],
-            email=item["email"],
-        )
-        for item in users
-    ]
-
-
-def convert_posts(posts: list[dict]) -> list[Post]:
-    return [
-        Post(
-            id=item["id"],
-            user_id=item["userId"],
-            title=item["title"],
-            body=item["body"],
-        )
-        for item in posts
-    ]
-
-
-async def write_to_db(entities):
+async def insert_users(users):
+    users_list = []
+    for user in users:
+        users_list.append(User(id=user['id'],
+                               name=user['name'],
+                               username=user['username'],
+                               email=user['email']))
     async with Session() as session:
         async with session.begin():
-            session.add_all(entities)
+            session.add_all(users_list)
+
+
+async def insert_posts(posts):
+    posts_list = []
+    for post in posts:
+        posts_list.append(Post(id=post['id'],
+                               title=post['title'],
+                               user_id=post['userId'],
+                               body=post['body']))
+    async with Session() as session:
+        async with session.begin():
+            session.add_all(posts_list)
 
 
 async def async_main():
+    users: List[dict]
+    posts: List[dict]
+    users, posts = await asyncio.gather(
+        get_users(),
+        get_posts(),
+    )
+
     await create_tables()
-    users_data, posts_data = await get_data()
-    users, posts = convert_users(users_data), convert_posts(posts_data)
-    await write_to_db(users + posts)
-    await engine.dispose()
+    await insert_users(users)
+    await insert_posts(posts)
 
 
 def main():
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     asyncio.run(async_main())
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

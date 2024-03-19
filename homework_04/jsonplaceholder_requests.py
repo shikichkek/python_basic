@@ -5,13 +5,13 @@ import asyncio
 import aiohttp
 
 
-USERS_DATA_URL = "https://jsonplaceholder.typicode.com/users"
-POSTS_DATA_URL = "https://jsonplaceholder.typicode.com/posts"
+USERS_DATA_URL = 'https://jsonplaceholder.typicode.com/users'
+POSTS_DATA_URL = 'https://jsonplaceholder.typicode.com/posts'
 
 
-async def fetch_json(url: str):
-    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(5.0)) as session:
-        async with session.get(url) as response:
+async def fetch_json(url: str) -> dict:
+    async with aiohttp.ClientSession() as client:
+        async with client.get(url) as response:
             return await response.json()
 
 
@@ -24,8 +24,8 @@ async def get_posts():
 
 
 async def main():
-    users, posts = await asyncio.gather(get_users(), get_posts())
-    print(len(users), len(posts))
+    await get_users()
+    await get_posts()
 
 
 if __name__ == "__main__":
