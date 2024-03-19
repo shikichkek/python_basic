@@ -2,7 +2,6 @@
 создайте асинхронные функции для выполнения запросов к ресурсам (используйте aiohttp)
 """
 import asyncio
-import time
 import aiohttp
 
 
@@ -25,9 +24,8 @@ async def get_posts():
 
 
 async def main():
-    start = time()
     users, posts = await asyncio.gather(get_users(), get_posts())
-    print(len(users), len(posts), time() - start)
+    print(len(users), len(posts))
 
 
 if __name__ == "__main__":
