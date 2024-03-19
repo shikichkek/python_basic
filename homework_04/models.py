@@ -30,7 +30,7 @@ PG_CONN_URI = os.environ.get(
 ) or "postgresql+asyncpg://postgres:password@localhost:5432/postgres"
 
 
-async_engine = create_async_engine(
+engine = create_async_engine(
     PG_CONN_URI,
     echo=True,
 )
@@ -45,14 +45,13 @@ class Base(DeclarativeBase):
 
 
 Session = async_sessionmaker(
-    bind=async_engine,
+    bind=engine,
     autocommit=False,
     expire_on_commit=False,
 )
 
 
 class User(Base):
-    """ Модель Пользователь. """
     __tablename__ = 'users'
 
     id = Column(Integer, unique=True, primary_key=True)
@@ -63,7 +62,6 @@ class User(Base):
 
 
 class Post(Base):
-    """ Модель Публикации. """
     __tablename__ = 'posts'
 
     id = Column(Integer, primary_key=True)
